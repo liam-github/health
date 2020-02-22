@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--引入外部配置文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--注册数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="jdbc.driver"/>
+        <property name="url" value="jdbc.url"/>
+        <property name="username" value="jdbc.username"/>
+        <property name="password" value="jdbc.password"/>
+    </bean>
+
+    <!--mybatis-spring工厂bean-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--mybatis核心配置文件-->
+        <property name="configLocation" value="classpath:mybatisConfig.xml"/>
+        <!--数据源-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--实体类别名扫描-->
+        <property name="typeAliasesPackage" value="com.itheima.pojo"/>
+        <!--映射文件名-->
+        <property name="mapperLocations" value="classpath*:mapper/*.xml"/>
+        <!--插件（分页插件）-->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <value>
+                            helperDialect=mysql
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
+    </bean>
+
+    <!--批量扫描接口生成代理对象-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.itheima.dao"/>
+    </bean>
+
+</beans>
