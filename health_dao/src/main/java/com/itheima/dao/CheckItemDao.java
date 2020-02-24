@@ -3,6 +3,7 @@ package com.itheima.dao;
 import com.itheima.entity.QueryPageBean;
 import com.itheima.pojo.CheckItem;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.access.method.P;
 
 import java.util.List;
 
@@ -23,4 +24,14 @@ public interface CheckItemDao {
     void add(CheckItem checkItem);
 
     List<CheckItem> findPage(@Param("queryString") String queryString);
+
+    Integer findCountGroupByItemId(@Param("itemId") Integer id);
+
+    void delete(Integer id);
+
+    CheckItem findById(Integer id);
+
+    void edit(CheckItem checkItem);
+
+    List<CheckItem> findAll();
 }

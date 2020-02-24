@@ -9,10 +9,10 @@
     <context:property-placeholder location="classpath*:jdbc.properties"/>
     <!--注册数据源-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/health"/>
-        <property name="username" value="root"/>
-        <property name="password" value="root"/>
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
     </bean>
 
     <!--mybatis-spring工厂bean-->

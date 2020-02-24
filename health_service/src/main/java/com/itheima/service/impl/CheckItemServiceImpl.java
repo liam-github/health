@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.itheima.dao.CheckItemDao;
 import com.itheima.entity.PageResult;
 import com.itheima.entity.QueryPageBean;
+import com.itheima.exception.CheckItemException;
 import com.itheima.pojo.CheckItem;
 import com.itheima.service.CheckItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,33 @@ public class CheckItemServiceImpl implements CheckItemService {
         //2.写一个普通的跟分页无关的查询
         List<CheckItem> checkItems = checkItemDao.findPage(queryPageBean.getQueryString());
         return new PageResult(page.getTotal(),checkItems);
+    }
+
+    @Override
+    public void delete(Integer id) throws CheckItemException {
+        //根据检查项id查询是否存在引用该检查项的检查组
+        Integer count = checkItemDao.findCountGroupByItemId(id);
+
+        //判断count是否大于0，大于0则不能删除
+        if (count > 0) {
+            throw new CheckItemException("存在引用该检查组的检查项，不能删除");
+        } else {
+            checkItemDao.delete(id);
+        }
+    }
+
+    @Override
+    public CheckItem findById(Integer id) {
+        return checkItemDao.findById(id);
+    }
+
+    @Override
+    public void edit(CheckItem checkItem) {
+        checkItemDao.edit(checkItem);
+    }
+
+    @Override
+    public List<CheckItem> findAll() {
+        return checkItemDao.findAll();
     }
 }

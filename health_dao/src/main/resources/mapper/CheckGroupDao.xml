@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.dao.CheckGroupDao">
+
+
+    <!--
+        useGeneratedKeys="true" keyProperty="id"  适用于数据库主键是自增的
+
+      <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id"> 适用于所有数据库
+            SELECT LAST_INSERT_ID()
+      </selectKey>
+    -->
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_checkgroup (code, name, helpCode, sex, remark, attention)
+        VALUES (#{code},#{name},#{helpCode},#{sex},#{remark},#{attention})
+    </insert>
+
+    <update id="setCheckGroupAndCheckItem">
+        INSERT INTO t_checkgroup_checkitem (checkgroup_id, checkitem_id)
+        VALUES (#{checkGroupId},#{checkitemId})
+    </update>
+
+</mapper>

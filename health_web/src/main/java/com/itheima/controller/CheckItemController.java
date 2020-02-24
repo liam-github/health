@@ -5,11 +5,14 @@ import com.itheima.constant.MessageConstant;
 import com.itheima.entity.PageResult;
 import com.itheima.entity.QueryPageBean;
 import com.itheima.entity.Result;
+import com.itheima.exception.CheckItemException;
 import com.itheima.pojo.CheckItem;
 import com.itheima.service.CheckItemService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author liam
@@ -44,5 +47,44 @@ public class CheckItemController {
     @RequestMapping("/findPage.do")
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean) {
         return checkItemService.findPage(queryPageBean);
+    }
+
+    @RequestMapping("/findById")
+    public Result findById(Integer id) {
+        CheckItem checkItem = checkItemService.findById(id);
+
+        //不用判空吗,有可能已经被别人删除了 ?需要判断
+        if(checkItem == null){
+            //返回提示
+        }
+        return Result.success("", checkItem);
+    }
+
+    @RequestMapping("findAll")
+    public Result findAll() {
+        List<CheckItem> checkItems = checkItemService.findAll();
+        return Result.success("", checkItems);
+    }
+
+    @RequestMapping("/edit")
+    public Result edit(@RequestBody CheckItem checkItem) {
+
+        checkItemService.edit(checkItem);
+        return Result.success(MessageConstant.EDIT_CHECKITEM_SUCCESS);
+    }
+
+    @RequestMapping("/delete")
+    public Result delete(Integer id) {
+
+        try {
+            checkItemService.delete(id);
+        } catch (CheckItemException e) {
+            e.printStackTrace();
+            //此异常说明有引用不能删除
+            return Result.error(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.success(MessageConstant.DELETE_CHECKITEM_SUCCESS);
     }
 }

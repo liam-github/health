@@ -8,12 +8,60 @@
           VALUES (#{code},#{name},#{sex},#{age},#{price},#{type},#{attention},#{remark})
     </insert>
 
+    <update id="edit">
+        update t_checkitem
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="attention != null">
+                attention = #{attention},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM t_checkitem WHERE id=#{id}
+    </delete>
+
     <select id="findPage" resultType="com.itheima.pojo.CheckItem">
         SELECT * FROM t_checkitem
         <where>
-            <if test="queryString!=null and queryString.trim()>0">
+            <if test="queryString!=null and queryString.trim()!=null">
                 and (code=#{queryString} OR name=#{queryString})
             </if>
         </where>
     </select>
+
+    <select id="findCountGroupByItemId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_checkgroup_checkitem WHERE checkitem_id=#{itemId}
+    </select>
+
+    <select id="findById" resultType="com.itheima.pojo.CheckItem">
+        SELECT * FROM t_checkitem WHERE id=#{id}
+    </select>
+
+    <select id="findAll" resultType="com.itheima.pojo.CheckItem">
+        SELECT * FROM t_checkitem
+    </select>
+
 </mapper>

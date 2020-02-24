@@ -27,7 +27,7 @@
                 <div class="box">
                     <div class="filter-container">
                         <el-input placeholder="项目编码/项目名称" v-model="pagination.queryString" style="width: 200px;" class="filter-item"></el-input>
-                        <el-button @click="findPage()" class="dalfBut">查询</el-button>
+                        <el-button @click="search()" class="dalfBut">查询</el-button>
                         <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
                     </div>
                     <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
@@ -228,8 +228,19 @@
                 this.findPage();
             },
             methods: {
+                //条件查询
+                search() {
+                    this.pagination.currentPage=1;
+                    this.findPage();
+                },
                 //编辑
                 handleEdit() {
+                    axios.put("/checkItem/edit.do",this.formData).then((res)=>{
+                        if (res.data.flag) {
+                            this.dialogFormVisible4Edit = false;
+                            this.findPage();
+                        }
+                    })
                 },
                 //添加
                 handleAdd () {
@@ -283,12 +294,53 @@
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
+                    //根据id去后台查询要修改的数据，并回显
+                    axios.get("/checkItem/findById.do",{
+                        //这样只是写法优雅一点，但是最终它会帮你把参数拼接在url后面
+                        params:{
+                            id:row.id
+                        }
+                    }).then((res)=>{
+                        this.formData = res.data.data;
+
+                        //并弹出编辑框
+                        this.dialogFormVisible4Edit = true;
+                    })
+
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
+                    //将pagination对象中的currentPage改成当前点击的页数
+                    this.pagination.currentPage = currentPage;
+                    this.findPage();
                 },
                 // 删除
                 handleDelete(row) {
+                    //1.删除需要谨慎处理，因此需要弹出框确认（then是确认，catch是取消）
+                    this.$confirm('此操作将永久删除该检查项, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        //需要去数据库查询，判断该检查项是否被检查组引用，若被引用，则提示用户不能删除
+                        axios.delete("/checkItem/delete.do?id="+row.id).then((res)=>{
+                            //如果成功刷新页面
+                            if (res.data.flag) {
+                                this.findPage();
+                            }
+                            //不管成功失败都提示用户信息
+                            this.$message({
+                                message:res.data.message,
+                                type:res.data.flag?'success':'error'
+                            })
+                        })
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    });
+
                 }
             }
         })
