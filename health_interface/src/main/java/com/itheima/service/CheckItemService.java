@@ -1,5 +1,9 @@
 package com.itheima.service;
 
+import com.itheima.entity.PageResult;
+import com.itheima.entity.QueryPageBean;
+import com.itheima.pojo.CheckItem;
+
 /**
  * @author liam
  * @description 检查项服务接口
@@ -8,4 +12,7 @@ package com.itheima.service;
  */
 public interface CheckItemService {
 
+    void add(CheckItem checkItem);
+
+    PageResult findPage(QueryPageBean queryPageBean);
 }
