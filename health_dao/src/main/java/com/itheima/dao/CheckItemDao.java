@@ -1,9 +1,7 @@
 package com.itheima.dao;
 
-import com.itheima.entity.QueryPageBean;
 import com.itheima.pojo.CheckItem;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.access.method.P;
 
 import java.util.List;
 

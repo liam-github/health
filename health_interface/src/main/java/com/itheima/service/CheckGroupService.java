@@ -1,6 +1,11 @@
 package com.itheima.service;
 
+import com.itheima.entity.PageResult;
+import com.itheima.entity.QueryPageBean;
+import com.itheima.exception.CheckGroupException;
 import com.itheima.pojo.CheckGroup;
+
+import java.util.Map;
 
 /**
  * @author liam
@@ -11,4 +16,12 @@ import com.itheima.pojo.CheckGroup;
 public interface CheckGroupService {
 
     void add(CheckGroup checkGroup);
+
+    PageResult findPage(QueryPageBean queryPageBean);
+
+    Map findById4Edit(Integer id);
+
+    void edit(CheckGroup checkGroup);
+
+    void delete(Integer id) throws CheckGroupException;
 }
