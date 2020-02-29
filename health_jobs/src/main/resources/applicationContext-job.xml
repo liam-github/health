@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--配置包扫描-->
+    <context:component-scan base-package="com.itheima.job"/>
+    <!--
+       定时器核心概念
+        1、任务（要干什么，我们清理图片）
+        2、触发器（什么时候干，我们可以晚上没人的时候比如2点开干）
+        3、调度器（管理触发器和任务）
+    -->
+
+    <!--1.注册quaz任务。关联我们自己的任务-->
+    <bean id="clearImageJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!--我们的任务类-->
+        <property name="targetObject" ref="clearImageJob"/>
+        <!--要执行的任务方法-->
+        <property name="targetMethod" value="clearImages"/>
+    </bean>
+    <!--2.注册触发器-->
+    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!--触发哪个任务-->
+        <property name="jobDetail" ref="clearImageJobDetail"/>
+        <!--什么时候触发-->
+        <property name="cronExpression" value="*/10 * * * * ?"/>
+    </bean>
+    <!--3.注册调度器-->
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger"/>
+            </list>
+        </property>
+    </bean>
+</beans>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,6 +38,12 @@ public class CheckGroupController {
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean) {
         PageResult pageResult = checkGroupService.findPage(queryPageBean);
         return pageResult;
+    }
+
+    @RequestMapping("/findAll")
+    public Result findAll() {
+        List<CheckGroup> checkGroups = checkGroupService.findAll();
+        return Result.success("", checkGroups);
     }
 
     @RequestMapping("/findById4Edit")

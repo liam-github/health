@@ -5,6 +5,7 @@ import com.itheima.entity.QueryPageBean;
 import com.itheima.exception.CheckGroupException;
 import com.itheima.pojo.CheckGroup;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,4 +25,6 @@ public interface CheckGroupService {
     void edit(CheckGroup checkGroup);
 
     void delete(Integer id) throws CheckGroupException;
+
+    List<CheckGroup> findAll();
 }

@@ -31,4 +31,6 @@ public interface CheckGroupDao {
     Integer findCountSetmealByCheckGroupId(Integer id);
 
     void delete(Integer id);
+
+    List<CheckGroup> findAll();
 }

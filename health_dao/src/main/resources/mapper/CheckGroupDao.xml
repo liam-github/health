@@ -81,5 +81,8 @@
     <select id="findCountSetmealByCheckGroupId" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM t_setmeal_checkgroup WHERE checkgroup_id=#{id}
     </select>
+    <select id="findAll" resultType="com.itheima.pojo.CheckGroup">
+        SELECT * FROM t_checkgroup
+    </select>
 
 </mapper>

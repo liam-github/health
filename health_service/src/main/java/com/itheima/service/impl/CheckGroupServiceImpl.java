@@ -120,4 +120,10 @@ public class CheckGroupServiceImpl implements CheckGroupService {
             checkGroupDao.delete(id);
         }
     }
+
+    @Override
+    public List<CheckGroup> findAll() {
+
+        return checkGroupDao.findAll();
+    }
 }
