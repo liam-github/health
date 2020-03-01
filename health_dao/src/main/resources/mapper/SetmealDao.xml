@@ -26,4 +26,33 @@
         </where>
     </select>
 
+    <select id="getSetmeal" resultType="com.itheima.pojo.Setmeal">
+        SELECT id,img,name,remark,sex,age FROM t_setmeal
+    </select>
+
+    <select id="findById" resultType="com.itheima.pojo.Setmeal">
+        SELECT id,img,name,remark,sex,age FROM t_setmeal WHERE id=#{id}
+    </select>
+
+    <select id="findCheckGroupBySetmealId" resultType="com.itheima.pojo.CheckGroup">
+        SELECT tcg.* FROM t_checkgroup tcg
+        INNER JOIN t_setmeal_checkgroup tsc ON tcg.id = tsc.checkgroup_id
+        WHERE tsc.setmeal_id = #{id}
+    </select>
+
+    <select id="findCheckItemByCheckGroupId" resultType="com.itheima.pojo.CheckItem">
+        SELECT tci.* FROM t_checkitem tci
+          INNER JOIN t_checkgroup_checkitem tcc on tci.id = tcc.checkitem_id
+        WHERE tcc.checkgroup_id = #{checkGroupId}
+    </select>
+
+    <select id="findCheckItemByCheckGroupIds" resultType="com.itheima.pojo.CheckItem">
+        SELECT tci.*,tcc.checkgroup_id checkGroupId FROM t_checkitem tci
+        INNER JOIN t_checkgroup_checkitem tcc on tci.id = tcc.checkitem_id
+        WHERE tcc.checkgroup_id IN 
+        <foreach collection="checkGroupIds" item="checkGroupId" separator="," open="(" close=")">
+            #{checkGroupId}
+        </foreach>
+    </select>
+
 </mapper>

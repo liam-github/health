@@ -2,6 +2,7 @@ package com.itheima.service;
 
 import com.itheima.pojo.OrderSetting;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface OrderSettingService {
 
     void editNumberByDate(OrderSetting orderSetting);
 
-    void addBatch(List<String[]> rows);
+    void addBatch(ArrayList<OrderSetting> orderSettings);
 
     List<HashMap> findByMonth(String dateStr);
 }

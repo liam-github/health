@@ -43,20 +43,8 @@ public class OrderSettingServiceImpl implements OrderSettingService {
     }
 
     @Override
-    public void addBatch(List<String[]> rows) {
-        for (String[] row : rows) {
-//            判断该行数据若小于2，则不进行如下操作，继续循环
-            if (row.length < 2){
-                continue;
-            }
-//            取出每一行的数据，并封装成orderSetting对象
-            String dateStr = row[0];
-            String numberStr = row[1];
-
-            DateTime date = DateUtil.parse(dateStr, "yyyy/MM/dd");
-            OrderSetting orderSetting = new OrderSetting(date, Integer.valueOf(numberStr));
-
-//            执行更新订单管理的方法
+    public void addBatch(ArrayList<OrderSetting> orderSettings) {
+        for (OrderSetting orderSetting : orderSettings) {
             editNumberByDate(orderSetting);
         }
     }
