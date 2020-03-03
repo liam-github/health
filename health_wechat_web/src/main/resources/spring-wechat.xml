@@ -27,7 +27,9 @@
 
     <dubbo:application name="health_wechat_web"/>
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
-    <dubo:annotation package="com.itheima.wechat"/>
+    <dubo:annotation package="com.itheima.wechat,com.itheima.util"/>
     <dubbo:consumer check="false" timeout="600000"/>
+
+    <import resource="spring-redis.xml"/>
 
 </beans>

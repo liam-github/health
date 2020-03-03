@@ -12,12 +12,20 @@
         UPDATE t_ordersetting SET number=#{number} WHERE orderDate = #{orderDate}
     </update>
 
+    <update id="updateReservasionsById">
+        UPDATE t_ordersetting SET reservations=reservations+1 WHERE id=#{id}
+    </update>
+
     <select id="findCountByDate" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM t_ordersetting WHERE orderDate = #{orderDate}
     </select>
 
     <select id="findByMonth" resultType="com.itheima.pojo.OrderSetting">
         SELECT * FROM t_ordersetting WHERE orderDate BETWEEN #{startDate} AND #{endDate}
+    </select>
+
+    <select id="findByDate" resultType="com.itheima.pojo.OrderSetting">
+        SELECT * FROM t_ordersetting WHERE orderDate=#{orderDate}
     </select>
 
 </mapper>

@@ -118,6 +118,11 @@ public class SetmealServiceImpl implements SetmealService {
         return setmeal;
     }
 
+    @Override
+    public Setmeal findDetailById(Integer id) {
+        return setmealDao.findById(id);
+    }
+
     /**
      * 获取传入的checkGroups，获取所有的checkGroup的id并封装成list集合返回
      * @author liam
