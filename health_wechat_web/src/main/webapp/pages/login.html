@@ -85,6 +85,8 @@
                     }
                     axios.post("/login/check.do",this.loginInfo).then((response) => {
                         if(response.data.flag){
+                            //将返回的token保存在浏览器
+                            localStorage.setItem("token",response.data.data);
                             //登录成功,跳转到index.html
                             window.location.href="index.html";
                         }else{

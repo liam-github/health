@@ -8,7 +8,7 @@ import java.util.List;
 public interface MemberDao {
     public List<Member> findAll();
     public Page<Member> selectByCondition(String queryString);
-    public void add(Member member);
+    public Integer add(Member member);
     public void deleteById(Integer id);
     public Member findById(Integer id);
     public Member findByTelephone(String telephone);

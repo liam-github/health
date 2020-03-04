@@ -100,6 +100,7 @@
                 </div>
             </div>
         </div>
+        <script src="../plugins/interceptors.js"></script>
         <script>
             var vue = new Vue({
                 el:'#app',
@@ -155,6 +156,11 @@
                     axios.post("/setmeal/findDetailById.do?id=" + id).then((response) => {
                         this.setmeal = response.data.data;
                     });
+                    //页面一刷新就到后端获取唯一token，为防止表单重复提交
+                    axios.get("/setmeal/getToken" ).then((response) => {
+                        this.setmeal.token = response.data.data;
+                    });
+
                 }
             });
         </script>

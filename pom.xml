@@ -16,6 +16,7 @@
         <module>health_web</module>
         <module>health_jobs</module>
         <module>health_wechat_web</module>
+        <module>spring_security_demo</module>
     </modules>
     <packaging>pom</packaging>
 

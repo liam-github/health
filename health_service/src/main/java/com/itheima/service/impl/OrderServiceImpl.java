@@ -7,15 +7,18 @@ import com.itheima.dao.MemberDao;
 import com.itheima.dao.OrderDao;
 import com.itheima.dao.OrderSettingDao;
 import com.itheima.entity.Result;
+import com.itheima.exception.OrderException;
 import com.itheima.pojo.Member;
 import com.itheima.pojo.Order;
 import com.itheima.pojo.OrderInfo;
 import com.itheima.pojo.OrderSetting;
 import com.itheima.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author liam
@@ -24,6 +27,7 @@ import java.util.List;
  * @Version 1.0.0
  */
 @Service(interfaceClass = OrderService.class)
+@Transactional
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
@@ -36,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     private MemberDao memberDao;
 
     @Override
-    public Result submit(OrderInfo orderInfo) {
+    public Result submit(OrderInfo orderInfo) throws OrderException{
 
         Date orderDate = orderInfo.getOrderDate();
         Member member = orderInfo.getMember();
@@ -83,9 +87,17 @@ public class OrderServiceImpl implements OrderService {
 
         //5.不存在，则存储该预约信息，并更新预约设置表中的已经预约数
         orderDao.add(order);
-        orderSettingDao.updateReservasionsById(orderSetting.getId());
-
+        int row = orderSettingDao.updateReservasionsByIdAndVersion(orderSetting.getId(),orderSetting.getVersion());
+        if (row != 1) {
+            //插入失败，则抛出异常
+            throw new OrderException("更新失败");
+        }
         //6.返回提示信息：预约成功,并返回订单对象
         return Result.success(MessageConstant.ORDER_SUCCESS,order);
+    }
+
+    @Override
+    public Map findById(Integer id) {
+        return orderDao.findById4Detail(id);
     }
 }

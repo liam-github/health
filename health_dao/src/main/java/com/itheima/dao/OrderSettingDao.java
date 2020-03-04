@@ -25,5 +25,7 @@ public interface OrderSettingDao {
 
     OrderSetting findByDate(@Param("orderDate") Date orderDate);
 
-    void updateReservasionsById(@Param("id") Integer id);
+    int updateReservasionsById(@Param("id") Integer id);
+
+    int updateReservasionsByIdAndVersion(@Param("id") Integer id,@Param("version") int version);
 }

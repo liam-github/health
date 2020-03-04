@@ -26,9 +26,26 @@ public class JedisUtils {
     }
 
     public String get(String key) {
-        Jedis jedis = jedisPool.getResource();
-        String code = jedis.get(key);
-        jedis.close();
-        return code;
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.get(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Long del(String key) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            return jedis.del(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return 0L;
     }
 }

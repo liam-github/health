@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<body>
+<!--
+    action="/login" 处理登录请求的地址默认是/login（可以改，改了要告诉框架）
+    method="post" 请求方法必须是post的
+    name="username" 用户名的参数名默认是username（可以改，改了要告诉框架）
+    name="password" 密码的参数名默认是password（可以改，改了要告诉框架）
+-->
+<form action="/login" method="post">
+    username：<input type="text" name="username"><br>
+    password：<input type="password" name="password"><br>
+    <input type="submit" value="submit">
+</form>
+</body>
+</html>

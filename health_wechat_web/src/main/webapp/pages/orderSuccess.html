@@ -59,6 +59,8 @@
             </div>
         </div>
     </body>
+        <!--引入axios请求拦截器-->
+    <script src="../plugins/interceptors.js"></script>
     <script>
         var vue = new Vue({
             el:'#app',
@@ -67,7 +69,7 @@
             },
             mounted(){
                 axios.post("/order/findById.do?id=" + id).then((response) => {
-                    this.orderInfo = response.data.data;
+                        this.orderInfo = response.data.data;
                 });
             }
         });

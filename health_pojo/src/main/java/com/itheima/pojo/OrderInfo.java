@@ -13,8 +13,17 @@ public class OrderInfo implements Serializable {
     private String validateCode;
     private int setmealId;
     private Date orderDate;
-    private Member member;
     private String orderType;
+    private Member member;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getOrderType() {
         return orderType;

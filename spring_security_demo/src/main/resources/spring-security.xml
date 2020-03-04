@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!--4、指定哪些资源不需要进行权限校验，可以使用通配符-->
+    <security:http security="none" pattern="/login.html"/>
+
+    <!--
+       1、http：用于定义相关权限控制
+            auto-config：是否自动配置
+                        设置为true时框架会提供默认的一些配置，例如提供默认的登录页面、登出处理等
+                        设置为false时需要显示提供登录表单配置，否则会报错
+            use-expressions：用于指定intercept-url中的access属性是否使用表达式
+    -->
+    <security:http auto-config="true" use-expressions="true">
+        <!--
+           5、配置自定义登录页面
+            default-target-url:登录成功默认跳转的页面
+            authentication-failure-url：认证失败跳转的页面
+        -->
+        <security:form-login login-page="/login.html"
+                             username-parameter="username"
+                             password-parameter="password"
+                             default-target-url="/index.html"
+                             authentication-failure-url="/login.html"/>
+        <!--6、关闭CsrfFilter过滤器-->
+        <security:csrf disabled="true"/>
+        <!--7、配置退出 logout-url="/logout" 可以不用配 默认/logout(改路径被security过滤器拦截后执行登出操作)-->
+        <security:logout logout-url="/logout" logout-success-url="/login.html"/>
+        <!--403 拒绝访问 的友好提示-->
+        <security:access-denied-handler error-page="/error.html"/>
+        <!--
+          2、intercept-url：定义一个拦截规则
+                pattern：对哪些url进行权限控制。/** 拦截根目录下面所有有的资源还包括子目录
+                access：在请求对应的URL时需要什么权限，默认配置时它应该是一个以逗号分隔的角色列表，
+				        请求的用户只需拥有其中的一个角色就能成功访问对应的URL
+        -->
+        <security:intercept-url pattern="/**" access="hasAuthority('item_main')"/>
+    </security:http>
+
+    <!--3、authentication-manager 认证管理器 处理认证操作-->
+    <security:authentication-manager>
+        <!--authentication-provider 认证提供者，执行具体的认证逻辑-->
+        <security:authentication-provider>
+            <!--user-service 用于获取用户信息，提供给authentication-provider进行认证-->
+            <security:user-service>
+                <!--user：定义用户信息，可以指定用户名、密码、角色，后期可以改为从数据库查询用户信息
+				   {noop}：表示当前使用的密码为明文
+				   authorities 当前这个用户拥有哪些权限(可以写多个用逗号隔开)
+				-->
+                <security:user name="admin" password="{noop}admin" authorities="item_main"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+</beans>

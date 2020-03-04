@@ -1,7 +1,10 @@
 package com.itheima.service;
 
 import com.itheima.entity.Result;
+import com.itheima.exception.OrderException;
 import com.itheima.pojo.OrderInfo;
+
+import java.util.Map;
 
 /**
  * @author liam
@@ -10,5 +13,8 @@ import com.itheima.pojo.OrderInfo;
  * @Version 1.0.0
  */
 public interface OrderService {
-    Result submit(OrderInfo orderInfo);
+
+    Result submit(OrderInfo orderInfo) throws OrderException;
+
+    Map findById(Integer id);
 }

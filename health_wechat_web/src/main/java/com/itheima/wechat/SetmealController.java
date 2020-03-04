@@ -8,6 +8,7 @@ import com.itheima.constant.RedisMessageConstant;
 import com.itheima.entity.Result;
 import com.itheima.pojo.Setmeal;
 import com.itheima.service.SetmealService;
+import com.itheima.util.JedisUtils;
 import com.itheima.util.SmsUtil;
 import com.itheima.util.ValidateCodeUtils;
 import com.sun.org.apache.regexp.internal.RE;
@@ -18,6 +19,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author liam
@@ -31,6 +33,9 @@ public class SetmealController {
 
     @Reference
     private SetmealService setmealService;
+
+    @Autowired
+    private JedisUtils jedisUtils;
 
     @RequestMapping("/getSetmeal")
     public Result getSetmeal() {
@@ -50,5 +55,13 @@ public class SetmealController {
         return Result.success("", setmeal);
     }
 
+    @RequestMapping("/getToken")
+    public Result getToken() {
+
+        String token = UUID.randomUUID().toString();
+        jedisUtils.setex(token,60*60*2,token);
+
+        return Result.success("", token);
+    }
 
 }
