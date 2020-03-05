@@ -8,6 +8,7 @@ import com.itheima.entity.Result;
 import com.itheima.exception.CheckItemException;
 import com.itheima.pojo.CheckItem;
 import com.itheima.service.CheckItemService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,7 @@ public class CheckItemController {
      * 4、List 不管名字一不一样 必须加@RequestParam
      */
     @RequestMapping("/add.do")
+    @PreAuthorize("hasAuthority('CHECKITEM_ADD')")
     public Result add(@RequestBody CheckItem checkItem) {
         try {
             checkItemService.add(checkItem);
@@ -45,11 +47,13 @@ public class CheckItemController {
     }
 
     @RequestMapping("/findPage.do")
+    @PreAuthorize("hasAuthority('CHECKITEM_QUERY')")
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean) {
         return checkItemService.findPage(queryPageBean);
     }
 
     @RequestMapping("/findById")
+    @PreAuthorize("hasAuthority('CHECKITEM_QUERY')")
     public Result findById(Integer id) {
         CheckItem checkItem = checkItemService.findById(id);
 
@@ -61,12 +65,14 @@ public class CheckItemController {
     }
 
     @RequestMapping("findAll")
+    @PreAuthorize("hasAuthority('CHECKITEM_QUERY')")
     public Result findAll() {
         List<CheckItem> checkItems = checkItemService.findAll();
         return Result.success("", checkItems);
     }
 
     @RequestMapping("/edit")
+    @PreAuthorize("hasAuthority('CHECKITEM_EDIT')")
     public Result edit(@RequestBody CheckItem checkItem) {
 
         checkItemService.edit(checkItem);
@@ -74,6 +80,7 @@ public class CheckItemController {
     }
 
     @RequestMapping("/delete")
+    @PreAuthorize("hasAuthority('CHECKITEM_DELTE')")
     public Result delete(Integer id) {
 
         try {

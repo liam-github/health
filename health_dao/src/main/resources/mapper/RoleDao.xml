@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.dao.RoleDao">
+
+    <resultMap id="roleAndPermissionMap" type="com.itheima.pojo.Role">
+        <id property="id" column="rid"/>
+        <collection property="permissions" javaType="java.util.Set" ofType="com.itheima.pojo.Permission" autoMapping="true">
+            <id property="id" column="id" />
+        </collection>
+    </resultMap>
+
+    <select id="findByUserId" resultMap="roleAndPermissionMap">
+        SELECT tr.id rid,tp.* FROM t_role tr
+        INNER JOIN t_user_role tur on tr.id = tur.role_id
+        INNER JOIN t_role_permission trp on tr.id = trp.role_id
+        INNER JOIN t_permission tp on trp.permission_id = tp.id
+        WHERE tur.user_id = #{userId}
+    </select>
+</mapper>
