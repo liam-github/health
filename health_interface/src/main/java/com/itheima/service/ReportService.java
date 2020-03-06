@@ -1,6 +1,9 @@
 package com.itheima.service;
 
+import com.itheima.pojo.ReportData;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author liam
@@ -10,4 +13,9 @@ import java.util.List;
  */
 public interface ReportService {
     List<Integer> getMemberReport(List<String> months);
+
+    List<Map<String, Object>> getSetmealReport();
+
+    ReportData getBusinessReportData();
+
 }

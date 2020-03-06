@@ -6,6 +6,7 @@ import com.itheima.pojo.Setmeal;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author liam
@@ -30,4 +31,6 @@ public interface SetmealDao {
     List<CheckItem> findCheckItemByCheckGroupId(@Param("checkGroupId") Integer checkGroupId);
 
     List<CheckItem> findCheckItemByCheckGroupIds(@Param("checkGroupIds")List<Integer> checkGroupIds);
+
+    List<Map<String, Object>> getSetmealReport();
 }

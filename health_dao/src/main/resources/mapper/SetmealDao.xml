@@ -55,4 +55,10 @@
         </foreach>
     </select>
 
+    <select id="getSetmealReport" resultType="java.util.Map">
+        SELECT COUNT(o.id) value,s.name FROM t_order o
+        INNER JOIN t_setmeal s on o.setmeal_id = s.id
+        GROUP BY o.setmeal_id
+    </select>
+
 </mapper>

@@ -100,4 +100,14 @@ public class OrderServiceImpl implements OrderService {
     public Map findById(Integer id) {
         return orderDao.findById4Detail(id);
     }
+
+    @Override
+    public void updatePayNo(String outTradeNo, Integer orderId) {
+        orderDao.updatePayNo(outTradeNo, orderId);
+    }
+
+    @Override
+    public void updatePayStatus(String outTradeNo) {
+        orderDao.updatePayStatus(outTradeNo);
+    }
 }

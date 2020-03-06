@@ -17,4 +17,8 @@ public interface OrderService {
     Result submit(OrderInfo orderInfo) throws OrderException;
 
     Map findById(Integer id);
+
+    void updatePayNo(String outTradeNo, Integer orderId);
+
+    void updatePayStatus(String outTradeNo);
 }
