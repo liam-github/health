@@ -21,6 +21,7 @@
         <!--要执行的任务方法-->
         <property name="targetMethod" value="clearImages"/>
     </bean>
+
     <!--2.注册触发器-->
     <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <!--触发哪个任务-->
@@ -28,6 +29,7 @@
         <!--什么时候触发-->
         <property name="cronExpression" value="*/10 * * * * ?"/>
     </bean>
+
     <!--3.注册调度器-->
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">

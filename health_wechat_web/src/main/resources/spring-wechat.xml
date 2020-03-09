@@ -25,20 +25,20 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-    <!--mvc拦截器-->
-    <!--<mvc:interceptors>-->
+    <!--&lt;!&ndash;mvc拦截器&ndash;&gt;
+    <mvc:interceptors>
 
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/order/*"/>-->
-            <!--<mvc:mapping path="/setmeal/*"/>-->
-            <!--<bean class="com.itheima.interceptor.LoginInterceptor"/>-->
-        <!--</mvc:interceptor>-->
+        <mvc:interceptor>
+            <mvc:mapping path="/order/*"/>
+            <mvc:mapping path="/setmeal/*"/>
+            <bean class="com.itheima.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
 
-    <!--</mvc:interceptors>-->
+    </mvc:interceptors>-->
 
     <dubbo:application name="health_wechat_web"/>
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
-    <dubo:annotation package="com.itheima.wechat,com.itheima.util"/>
+    <dubbo:annotation package="com.itheima.wechat,com.itheima.util"/>
     <dubbo:consumer check="false" timeout="600000"/>
 
     <import resource="spring-redis.xml"/>

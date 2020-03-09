@@ -22,6 +22,18 @@
                     <el-breadcrumb-item>会员数量</el-breadcrumb-item>
                 </el-breadcrumb>
             </div>
+
+            <div class="block">
+                <span class="demonstration">带快捷选项</span>
+                <el-date-picker
+                        v-model="value2"
+                        align="right"
+                        type="date"
+                        placeholder="选择日期"
+                        :picker-options="pickerOptions">
+                </el-date-picker>
+            </div>
+
             <div class="app-container">
                 <div class="box">
                     <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
@@ -33,6 +45,7 @@
     <!-- 引入组件库 -->
     <script src="../js/vue.js"></script>
     <script src="../js/axios-0.18.0.js"></script>
+    <script src="../plugins/elementui/index.js"></script>
     <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
         var myChart1 = echarts.init(document.getElementById('chart1'));
@@ -63,5 +76,11 @@
                                     }]
                                 });
         });
+
+        var vue = new vue({
+            el:'#app',
+            data:{}
+
+        })
     </script>
 </html>

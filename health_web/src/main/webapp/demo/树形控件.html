@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../plugins/elementui/index.css">
+    <script src="../js/vue.js"></script>
+    <script src="../plugins/elementui/index.js"></script>
+    <title>树形控件</title>
+</head>
+<body>
+<div id="app" class="block">
+
+    <div class="content-header">
+        <h1>系统设置<small>菜单管理</small></h1>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>系统设置</el-breadcrumb-item>
+            <el-breadcrumb-item>菜单管理</el-breadcrumb-item>
+        </el-breadcrumb>
+    </div>
+    <el-button type="primary" size="mini" @click="handleUpdate()">添加一级菜单</el-button>
+
+    <el-tree
+            :data="treeData"
+            show-checkbox
+            node-key="id"
+            default-expand-all
+            :expand-on-click-node="false">
+      <span class="custom-tree-node" slot-scope="{ node, data }">
+        <span>{{ node.label }}</span>
+        <span>
+          <i class="el-icon-circle-plus" @click="handleCreate(node.id)">添加子菜单</i>
+          <i class="el-icon-edit" @click="handleUpdate(node.id)">编辑</i>
+          <i class="el-icon-remove" @click="handleDelete(node.id)">删除</i>
+        </span>
+      </span>
+    </el-tree>
+
+    <!-- 新增标签弹层 -->
+    <div class="add-form">
+        <el-dialog title="新增检查组" :visible.sync="dialogFormVisible">
+            <template>
+                <el-tabs v-model="activeName" type="card">
+                    <el-tab-pane label="基本信息" name="first">
+                        <el-form label-position="right" label-width="100px">
+                            <el-row>
+                                <el-col :span="12">
+                                    <el-form-item label="编码">
+                                        <el-input v-model="formData.code"/>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-form-item label="名称">
+                                        <el-input v-model="formData.name"/>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="12">
+                                    <el-form-item label="适用性别">
+                                        <el-select v-model="formData.sex">
+                                            <el-option label="不限" value="0"></el-option>
+                                            <el-option label="男" value="1"></el-option>
+                                            <el-option label="女" value="2"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-form-item label="助记码">
+                                        <el-input v-model="formData.helpCode"/>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="24">
+                                    <el-form-item label="说明">
+                                        <el-input v-model="formData.remark" type="textarea"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="24">
+                                    <el-form-item label="注意事项">
+                                        <el-input v-model="formData.attention" type="textarea"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                        </el-form>
+                    </el-tab-pane>
+                </el-tabs>
+            </template>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取消</el-button>
+                <el-button type="primary" @click="handleAdd()">确定</el-button>
+            </div>
+        </el-dialog>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    var vue = new Vue({
+        el:'#app',
+        data:{
+            activeName:'first',
+            treeData:[
+                {id:1,label:"系统",children:[{id:5,label:"系统",children:[]}]},
+                {id:2,label:"预约",children:[]},
+                {id:3,label:"会员",children:[]}
+            ],
+            formData:{},
+            dialogFormVisible:false
+        },
+        methods:{
+            handleCreate() {
+                this.dialogFormVisible=true;
+            }
+        }
+    })
+</script>
+</html>
